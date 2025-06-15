@@ -3,32 +3,46 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
+const form = document.querySelector('.form');
 
-let lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
+let lightbox = new SimpleLightbox('.gallery a', {});
 
 export function createGallery(images) {
   const markup = images
     .map(
-      image => `
+  ({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => `
       <li class="gallery-item">
-        <a href="${image.largeImageURL}">
-          <img src="${image.webformatURL}" alt="${image.tags}" />
+        <a href="${largeImageURL}">
+          <img src="${webformatURL}" alt="${tags}" width='360'/>
         </a>
-        <div class="info">
-          <p><b>Likes:</b> ${image.likes}</p>
-          <p><b>Views:</b> ${image.views}</p>
-          <p><b>Comments:</b> ${image.comments}</p>
-          <p><b>Downloads:</b> ${image.downloads}</p>
-        </div>
-      </li>
-    `
+        <ul class='list'>
+      
+      <li class='item'>
+         <span>Likes</span>
+         <span>${likes}</span>
+        </li>
+
+        <li class='item'>
+          <span>views</span>
+         <span>${views}</span>
+         </li>
+
+         <li class='item'>
+          <span>comments</span>
+         <span>${comments}</span>
+         </li>
+
+         <li class='item'>
+          <span>downloads</span>
+         <span>${downloads}</span>
+         </li>
+       </ul>
+      </li>`      
     )
     .join('');
 
   gallery.insertAdjacentHTML('beforeend', markup);
+
   lightbox.refresh();
 }
 
